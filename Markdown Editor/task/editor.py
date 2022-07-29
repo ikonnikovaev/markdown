@@ -1,7 +1,8 @@
 # write your code here
-formatters_string = 'plain bold italic header link inline-code new-line'
+formatters_string = 'plain bold italic header link inline-code ordered-list unordered-list new-line'
 
-# 'plain bold italic header link inline-code ordered-list unordered-list new-line'
+#'plain bold italic header link inline-code new-line'
+
 special_commands_string = '!help !done'
 formatters = formatters_string.split()
 special_commands = special_commands_string.split()
@@ -31,6 +32,28 @@ def apply_font_format(text, font):
     if font == 'inline-code':
         return f'`{text}`'
 
+def set_list_parameters():
+    n_rows = int(input('Number of rows: '))
+    while n_rows <= 0:
+        print('The number of rows should be greater than zero')
+        n_rows = int(input('Number of rows: '))
+    elements = []
+    for i in range(n_rows):
+        elements.append(input(f'Row #{i + 1}').strip())
+    return elements
+
+def apply_list_format(elements, order):
+    result = f''
+    n = len(elements)
+    for i in range(n):
+        if order:
+            result += f'{i + 1}. {elements[i]}\n'
+        else:
+            result += f'* {elements[i]}\n'
+    return result
+
+
+
 def set_link_parameters():
     label = input('Label: ')
     url = input('URL: ')
@@ -47,6 +70,13 @@ def format_text(formatter):
     if formatter in ['plain', 'bold', 'italic', 'inline-code']:
         text = ask_for_text()
         return apply_font_format(text, formatter)
+    if formatter in ['ordered-list', 'unordered-list']:
+        elements = set_list_parameters()
+        order = False
+        if formatter == 'ordered-list':
+            order = True
+        return apply_list_format(elements, order)
+
     if formatter == 'link':
         label, url = set_link_parameters()
         return apply_link_format(label, url)
