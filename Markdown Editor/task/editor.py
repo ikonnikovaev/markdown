@@ -88,6 +88,10 @@ def ask_for_text():
     text = input('Text: ').strip()
     return text
 
+def save_to_file(text, filename='output.md'):
+    with open(filename, 'w') as f:
+        f.write(text)
+
 
 def act():
     full_text = ''
@@ -98,6 +102,7 @@ def act():
             print(prompt_string)
             user_input = input()
         if user_input == '!done':
+            save_to_file(full_text)
             break
         elif user_input == '!help':
             print(help_string)
